@@ -1,13 +1,13 @@
 "use client";
 
 import React from 'react';
-import { getAllBooks } from "@/services/books";
+import { getAllCars } from "@/services/cars";
 import { useQuery } from '@tanstack/react-query'
 
 interface Page01Props { }
 
 const Page01: React.FC<Page01Props> = () => {
-    const { data } = useQuery({ queryKey: ['books'], queryFn: getAllBooks, staleTime: 10000 })
+    const { data } = useQuery({ queryKey: ['books'], queryFn: getAllCars, staleTime: 10000 })
 
     return (
         <div>

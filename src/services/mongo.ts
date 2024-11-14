@@ -34,6 +34,12 @@ export async function getAllDocuments(client: any, collection: string) {
     return documents;
 }
 
+export async function updateDocument(client: any, collection: string, id: string, document: object) {
+    const db = client.db('db01');
+    const result = await db.collection(collection).updateOne({ _id: id }, { $set: document });
+    return result;
+}
+
 export async function deleteDocument(client: any, collection: string, id: string) {
     const db = client.db('db01');
     const result = await db.collection(collection).deleteOne({ _id: id });
