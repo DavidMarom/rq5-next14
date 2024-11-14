@@ -3,8 +3,8 @@
 
 import { MongoClient } from "mongodb";
 
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
+// let client: MongoClient;
+// let clientPromise: Promise<MongoClient>;
 
 // export async function connectDatabase() {
 //     if (!client) {
@@ -20,7 +20,6 @@ let clientPromise: Promise<MongoClient>;
 
 export async function connectDatabase() {
     const dbConnection: any = process.env.PUBLIC_DB_CONNECTION;
-    console.log('=======',dbConnection )
     return await MongoClient.connect(dbConnection);
 }
 
