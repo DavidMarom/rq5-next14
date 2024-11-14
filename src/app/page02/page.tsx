@@ -2,9 +2,7 @@
 
 import React from 'react';
 
-interface Page02Props {
-    
-}
+interface Page02Props { }
 
 const Page02: React.FC<Page02Props> = () => {
     return (

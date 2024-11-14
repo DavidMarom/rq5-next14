@@ -1,6 +1,6 @@
 "use server";
 
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
@@ -42,6 +42,6 @@ export async function updateDocument(client: any, collection: string, id: string
 
 export async function deleteDocument(client: any, collection: string, id: string) {
     const db = client.db('db01');
-    const result = await db.collection(collection).deleteOne({ _id: id });
+    const result = await db.collection(collection).deleteOne({ _id: new ObjectId(id) });
     return result;
 }
