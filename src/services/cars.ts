@@ -1,8 +1,8 @@
 import http from "@/services/http";
 
-export async function getAllBooks() {
+export async function getAllCars() {
     try {
-        const response = await http.get("/books");
+        const response = await http.get("/cars");
         return response.data;
     }
     catch (error) {
