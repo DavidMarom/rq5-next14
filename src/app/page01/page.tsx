@@ -1,26 +1,26 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { getAllBooks } from "@/services/books";
-// import { useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 interface Page01Props { }
 
 const Page01: React.FC<Page01Props> = () => {
-    const [data, setData] = useState<any[]>([]);
-    // const { data } = useQuery({
-    //     queryKey: ['books'],
-    //     queryFn: getAllBooks,
-    //     staleTime: 5000
-    // })
+    // const [data, setData] = useState<any[]>([]);
+    const { data } = useQuery({
+        queryKey: ['books'],
+        queryFn: getAllBooks,
+        staleTime: 10000
+    })
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const books = await getAllBooks();
-            setData(books);
-        }
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const books = await getAllBooks();
+    //         setData(books);
+    //     }
+    //     fetchData();
+    // }, []);
 
     return (
         <div>

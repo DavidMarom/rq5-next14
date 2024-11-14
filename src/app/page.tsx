@@ -2,7 +2,7 @@
 export default function Home() {
   return (
     <div>
-      <p>v1</p>
+      <p>v2</p>
     
 
     </div>
