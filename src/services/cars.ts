@@ -40,14 +40,13 @@ export async function getAllCars() {
 //     }
 // }
 
-// export async function deleteBook(id: string) {
-//     console.log(id);
-//     // try {
-//     //     const response = await http.delete(`/books/${id}`);
-//     //     return response.data;
-//     // }
-//     // catch (error) {
-//     //     console.error(error);
-//     // }
-// }
+export async function deleteCar(id: string) {
+    try {
+        const response = await http.delete(`/cars/${id}`);
+        return response.data;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
 

@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getAllDocuments, connectDatabase } from '@/services/mongo';
 
-
 export async function GET() {
     const client = await connectDatabase();
-    const books = await getAllDocuments(client, 'cars');
-    return NextResponse.json(books);
+    const cars = await getAllDocuments(client, 'cars');
+    return NextResponse.json(cars);
 }
 
 export async function POST(request: Request) {
