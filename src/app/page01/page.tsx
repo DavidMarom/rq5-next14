@@ -7,20 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 interface Page01Props { }
 
 const Page01: React.FC<Page01Props> = () => {
-    // const [data, setData] = useState<any[]>([]);
-    const { data } = useQuery({
-        queryKey: ['books'],
-        queryFn: getAllBooks,
-        staleTime: 10000
-    })
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const books = await getAllBooks();
-    //         setData(books);
-    //     }
-    //     fetchData();
-    // }, []);
+    const { data } = useQuery({ queryKey: ['books'], queryFn: getAllBooks, staleTime: 10000 })
 
     return (
         <div>
@@ -33,7 +20,6 @@ const Page01: React.FC<Page01Props> = () => {
                     </div>
                 );
             })}
-
         </div>
     );
 }
