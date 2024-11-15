@@ -8,16 +8,17 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+    console.log('POST');
     const client = await connectDatabase();
     const body = await request.json();
-    const result = await client.db('test').collection('cars').insertOne(body);
+    const result = await client.db('db01').collection('cars').insertOne(body);
     return NextResponse.json(result);
 }
 
 export async function PUT(request: Request) {
     const client = await connectDatabase();
     const body = await request.json();
-    const result = await client.db('test').collection('cars').updateOne({ _id: body._id }, { $set: body });
+    const result = await client.db('db01').collection('cars').updateOne({ _id: body._id }, { $set: body });
     return NextResponse.json(result);
 }
 

@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryClientProvider client={queryClient}>
-          <Link href="/page01">Page01</Link> - <Link href="/page02">Page02</Link>
+          <Link href="/page01">Cars</Link> - <Link href="/page02">Edit a Car</Link>
           {children}
         </QueryClientProvider>
       </body>
