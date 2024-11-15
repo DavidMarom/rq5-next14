@@ -14,7 +14,7 @@ interface CardProps {
     onUpdate: (car: object) => void;
 }
 
-const Card: React.FC<CardProps> = ({ data, onDelete }) => {
+const Card: React.FC<CardProps> = ({ data, onDelete, onUpdate }) => {
 
     const [isEdit, setIsEdit] = useState(false);
     const toggleEdit = () => { setIsEdit(!isEdit) }
@@ -25,7 +25,11 @@ const Card: React.FC<CardProps> = ({ data, onDelete }) => {
 
     const handleUpdate = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('update');
+        onUpdate({ model_name, color, plate_number });
+        setModel_name('');
+        setColor('');
+        setPlate_number('');
+        setIsEdit(false);
     }
 
 

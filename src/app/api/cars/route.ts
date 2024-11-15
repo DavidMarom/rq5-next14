@@ -10,6 +10,7 @@ export async function GET() {
 export async function POST(request: Request) {
     const client = await connectDatabase();
     const body = await request.json();
+    console.log('-----', body);
     const result = await client.db('db01').collection('cars').insertOne(body);
     return NextResponse.json(result);
 }

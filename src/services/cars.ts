@@ -21,8 +21,10 @@ export async function createCar(car: any) {
 }
 
 export async function updateCar(id: string, car: any) {
+    console.log('updateCar', id);
+    console.log('updateCar', car);
     try {
-        const response = await http.put(`/cars/${id}`, car);
+        const response = await http.put('/cars', { ...car, _id: id });
         return response.data;
     }
     catch (error) {
