@@ -17,3 +17,9 @@ h1 {
   font-size: 2rem;
   font-weight: bold;
 }
+
+.col{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

@@ -8,7 +8,6 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-    console.log('POST');
     const client = await connectDatabase();
     const body = await request.json();
     const result = await client.db('db01').collection('cars').insertOne(body);

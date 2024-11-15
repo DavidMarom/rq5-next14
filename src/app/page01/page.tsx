@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { getAllCars, deleteCar, createCar } from "@/services/cars";
+import { getAllCars, deleteCar, createCar, updateCar } from "@/services/cars";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Loader, Card } from '@/components/index';
 
@@ -11,8 +11,12 @@ const Page01: React.FC<Page01Props> = () => {
     const queryClient = useQueryClient()
 
     const { data, isLoading, isFetching } = useQuery({ queryKey: ['cars'], queryFn: getAllCars, staleTime: 10000 })
-    const deleteMutation = useMutation({ mutationFn: deleteCar, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) }, })
+    const deleteMutation =    useMutation({ mutationFn: deleteCar, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) }, })
     const createCarMutation = useMutation({ mutationFn: createCar, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) }, })
+    const updateCarMutation = useMutation({
+        mutationFn: ({ id, car }: { id: string, car: any }) => updateCar(id, car),
+        onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) },
+    })
 
     const [model_name, setModel_name] = useState('');
     const [color, setColor] = useState('');
@@ -47,6 +51,7 @@ const Page01: React.FC<Page01Props> = () => {
                         key={idx}
                         data={book}
                         onDelete={() => deleteMutation.mutate(book._id)}
+                        onUpdate={(car: any) => updateCarMutation.mutate({ id: book._id, car })}
                     />
                 );
             })}
