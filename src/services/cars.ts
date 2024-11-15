@@ -20,15 +20,17 @@ export async function createCar(car: any) {
     }
 }
 
-// export async function updateBook(id: string, book: any) {
-//     try {
-//         const response = await http.put(`/books/${id}`, book);
-//         return response.data;
-//     }
-//     catch (error) {
-//         console.error(error);
-//     }
-// }
+export async function updateCar(id: string, car: any) {
+    console.log('updateCar', id);
+    console.log('updateCar', car);
+    try {
+        const response = await http.put('/cars', { ...car, _id: id });
+        return response.data;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
 
 export async function deleteCar(id: string) {
     try {
