@@ -19,17 +19,29 @@ const Card: React.FC<CardProps> = ({ data, onDelete, onUpdate }) => {
     const [isEdit, setIsEdit] = useState(false);
     const toggleEdit = () => { setIsEdit(!isEdit) }
 
-    const [model_name, setModel_name] = useState('');
-    const [color, setColor] = useState('');
-    const [plate_number, setPlate_number] = useState('');
-
-    const handleUpdate = (e: React.FormEvent) => {
+    const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onUpdate({ model_name, color, plate_number });
-        setModel_name('');
-        setColor('');
-        setPlate_number('');
+        const form = e.target as HTMLFormElement;
+        const car = {
+            color: (form[1] as HTMLInputElement).value,
+            model_name: (form[0] as HTMLInputElement).value,
+            plate_number: (form[2] as HTMLInputElement).value,
+            _id: data._id
+        }
+        onUpdate(car);
         setIsEdit(false);
+    }
+
+
+    const form = () => {
+        return (
+            <form onSubmit={handleUpdate}>
+                <input type="text" placeholder={data.model_name} defaultValue={data.model_name} />
+                <input type="text" placeholder={data.color} defaultValue={data.color} />
+                <input type="text" placeholder={data.plate_number} defaultValue={data.plate_number} />
+                <button type="submit">Update Car</button>
+            </form>
+        );
     }
 
 
@@ -52,12 +64,7 @@ const Card: React.FC<CardProps> = ({ data, onDelete, onUpdate }) => {
     else {
         return (
             <div>
-                <form onSubmit={handleUpdate}>
-                    <input type="text" placeholder={data.model_name} value={model_name} onChange={(e) => setModel_name(e.target.value)} />
-                    <input type="text" placeholder={data.color} value={color} onChange={(e) => setColor(e.target.value)} />
-                    <input type="text" placeholder={data.plate_number} value={plate_number} onChange={(e) => setPlate_number(e.target.value)} />
-                    <button type="submit">Update Car</button>
-                </form>
+                {form()}
                 <br />
             </div>
 

@@ -36,7 +36,7 @@ export async function getAllDocuments(client: any, collection: string) {
 
 export async function updateDocument(client: any, collection: string, id: string, document: object) {
     const db = client.db('db01');
-    const result = await db.collection(collection).updateOne({ _id: id }, { $set: document });
+    const result = await db.collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: document });
     return result;
 }
 
