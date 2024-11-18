@@ -23,3 +23,23 @@ h1 {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.form-layout{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  height: 140px;
+  /* margin: 0 auto; */
+  padding: 1rem;
+  border-radius: 5px;
+  background: rgb(218, 218, 218);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

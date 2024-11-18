@@ -35,15 +35,17 @@ const Card: React.FC<CardProps> = ({ data, onDelete, onUpdate }) => {
 
     const form = () => {
         return (
-            <form onSubmit={handleUpdate}>
+            <form onSubmit={handleUpdate} className='form-layout'>
                 <input type="text" placeholder={data.model_name} defaultValue={data.model_name} />
                 <input type="text" placeholder={data.color} defaultValue={data.color} />
                 <input type="text" placeholder={data.plate_number} defaultValue={data.plate_number} />
-                <button type="submit">Update Car</button>
+                <div className='row'>
+                    <button type="submit">Update Car</button>
+                    <button onClick={toggleEdit}>Cancel</button>
+                </div>
             </form>
         );
     }
-
 
     if (!isEdit) {
         return (
