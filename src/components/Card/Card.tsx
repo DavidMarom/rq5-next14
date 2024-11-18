@@ -40,8 +40,8 @@ const Card: React.FC<CardProps> = ({ data, onDelete, onUpdate }) => {
                 <input type="text" placeholder={data.color} defaultValue={data.color} />
                 <input type="text" placeholder={data.plate_number} defaultValue={data.plate_number} />
                 <div className='row'>
-                    <button type="submit">Update Car</button>
                     <button onClick={toggleEdit}>Cancel</button>
+                    <button type="submit"><b>Update Car</b></button>
                 </div>
             </form>
         );
