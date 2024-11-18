@@ -10,7 +10,7 @@ interface Page01Props { }
 const Page01: React.FC<Page01Props> = () => {
     const queryClient = useQueryClient()
 
-    const { data, isLoading, isFetching } = useQuery({ queryKey: ['cars'], queryFn: getAllCars })
+    const { data, isLoading, isFetching } = useQuery({ queryKey: ['cars'], queryFn: getAllCars, staleTime: 10000 })
 
     const deleteMutation = useMutation({
         mutationFn: deleteCar,
