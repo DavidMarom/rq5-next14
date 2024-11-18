@@ -11,36 +11,40 @@ const Page01: React.FC<Page01Props> = () => {
     const queryClient = useQueryClient()
 
     const { data, isLoading, isFetching } = useQuery({ queryKey: ['cars'], queryFn: getAllCars, staleTime: 10000 })
-    const deleteMutation =    useMutation({ mutationFn: deleteCar, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) }, })
+    const deleteMutation = useMutation({ mutationFn: deleteCar, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) }, })
     const createCarMutation = useMutation({ mutationFn: createCar, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) }, })
     const updateCarMutation = useMutation({
         mutationFn: ({ id, car }: { id: string, car: any }) => updateCar(id, car),
         onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) },
     })
 
-    const [model_name, setModel_name] = useState('');
-    const [color, setColor] = useState('');
-    const [plate_number, setPlate_number] = useState('');
-
-    const handleAddCar = async (e: React.FormEvent) => {
+    const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        createCarMutation.mutate({ model_name, color, plate_number });
-        setModel_name('');
-        setColor('');
-        setPlate_number('');
-        queryClient.invalidateQueries({ queryKey: ['cars'] });
+        const form = e.target as HTMLFormElement;
+        const car = {
+            model_name: (form[0] as HTMLInputElement).value,
+            color: (form[1] as HTMLInputElement).value,
+            plate_number: (form[2] as HTMLInputElement).value,
+        }
+        createCarMutation.mutate(car);
     };
+
+    const form = () => {
+        return (
+            <form onSubmit={handleAddCar} className='form-layout'>
+                <input type="text" placeholder={data.model_name} defaultValue={data.model_name} />
+                <input type="text" placeholder={data.color} defaultValue={data.color} />
+                <input type="text" placeholder={data.plate_number} defaultValue={data.plate_number} />
+                <button type="submit">Add Car</button>
+            </form>
+        );
+    }
 
     return (
         <div>
             {isLoading && isFetching && <Loader />}
             <h1>Cars</h1>
-            <form onSubmit={handleAddCar}>
-                <input type="text" placeholder="Model" value={model_name} onChange={(e) => setModel_name(e.target.value)} />
-                <input type="text" placeholder="Car Model" value={color} onChange={(e) => setColor(e.target.value)} />
-                <input type="text" placeholder="Plate Number" value={plate_number} onChange={(e) => setPlate_number(e.target.value)} />
-                <button type="submit">Add Car</button>
-            </form>
+            {data && form()}
 
             <br />
 
