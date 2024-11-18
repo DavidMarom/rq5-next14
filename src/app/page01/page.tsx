@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { getAllCars, deleteCar, createCar, updateCar } from "@/services/cars";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Loader, Card } from '@/components/index';
@@ -9,40 +9,47 @@ interface Page01Props { }
 
 const Page01: React.FC<Page01Props> = () => {
     const queryClient = useQueryClient()
-
+    const [isMutating, setIsMutating] = useState(false);
     const { data, isLoading, isFetching } = useQuery({ queryKey: ['cars'], queryFn: getAllCars, staleTime: 10000 })
 
     const deleteMutation = useMutation({
         mutationFn: deleteCar,
         onMutate: async (id: string) => {
+            setIsMutating(true);
             await queryClient.cancelQueries({ queryKey: ['cars'] })
             const previousCars = queryClient.getQueryData(['cars'])
             queryClient.setQueryData(['cars'], (old: any) => old.filter((car: any) => car._id !== id))
             return { previousCars }
         },
-        onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) },
+        onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }); setIsMutating(false) },
     })
 
     const createCarMutation = useMutation({
         mutationFn: createCar,
         onMutate: async (car: any) => {
+            setIsMutating(true);
             await queryClient.cancelQueries({ queryKey: ['cars'] })
             const previousCars = queryClient.getQueryData(['cars'])
             queryClient.setQueryData(['cars'], (old: any) => [...old, car])
             return { previousCars }
         },
-        onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['cars'] }); setIsMutating(false);
+        },
     })
-    
+
     const updateCarMutation = useMutation({
         mutationFn: ({ id, car }: { id: string, car: any }) => updateCar(id, car),
         onMutate: async ({ id, car }: { id: string, car: any }) => {
+            setIsMutating(true);
             await queryClient.cancelQueries({ queryKey: ['cars'] })
             const previousCars = queryClient.getQueryData(['cars'])
             queryClient.setQueryData(['cars'], (old: any) => old.map((oldCar: any) => oldCar._id === id ? car : oldCar))
             return { previousCars }
         },
-        onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['cars'] }); setIsMutating(false);
+        },
     })
 
     const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,7 +76,7 @@ const Page01: React.FC<Page01Props> = () => {
 
     return (
         <div>
-            {isLoading && isFetching && <Loader />}
+            {(isLoading || isFetching || isMutating) && <Loader />}
             <h1>Cars</h1>
             {data && form()}
 
