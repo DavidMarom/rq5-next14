@@ -11,7 +11,19 @@ const Page01: React.FC<Page01Props> = () => {
     const queryClient = useQueryClient()
 
     const { data, isLoading, isFetching } = useQuery({ queryKey: ['cars'], queryFn: getAllCars, staleTime: 10000 })
-    const deleteMutation = useMutation({ mutationFn: deleteCar, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) }, })
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteCar,
+        onMutate: async (id: string) => {
+            setIsDeleting(true);
+            await queryClient.cancelQueries({ queryKey: ['cars'] })
+            const previousCars = queryClient.getQueryData(['cars'])
+            queryClient.setQueryData(['cars'], (old: any) => old.filter((car: any) => car._id !== id))
+            return { previousCars }
+        },
+        onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) },
+    })
     const createCarMutation = useMutation({ mutationFn: createCar, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['cars'] }) }, })
     const updateCarMutation = useMutation({
         mutationFn: ({ id, car }: { id: string, car: any }) => updateCar(id, car),
